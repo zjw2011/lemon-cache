@@ -21,7 +21,7 @@ public class CacheConfig<K, V> implements Cloneable {
 
     private boolean cacheNullValue = false;
 
-    //private RefreshPolicy refreshPolicy;
+    private RefreshPolicy refreshPolicy;
 
     private int tryLockUnlockCount = 2;
 
@@ -113,13 +113,13 @@ public class CacheConfig<K, V> implements Cloneable {
         this.monitors = monitors;
     }
 
-//    public RefreshPolicy getRefreshPolicy() {
-//        return refreshPolicy;
-//    }
-//
-//    public void setRefreshPolicy(RefreshPolicy refreshPolicy) {
-//        this.refreshPolicy = refreshPolicy;
-//    }
+    public RefreshPolicy getRefreshPolicy() {
+        return refreshPolicy;
+    }
+
+    public void setRefreshPolicy(RefreshPolicy refreshPolicy) {
+        this.refreshPolicy = refreshPolicy;
+    }
 
     public int getTryLockUnlockCount() {
         return tryLockUnlockCount;

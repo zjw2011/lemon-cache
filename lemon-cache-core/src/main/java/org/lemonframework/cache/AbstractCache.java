@@ -12,6 +12,7 @@ import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.lemonframework.cache.embedded.AbstractEmbeddedCache;
 import org.lemonframework.cache.event.CacheEvent;
 import org.lemonframework.cache.event.CacheGetAllEvent;
 import org.lemonframework.cache.event.CacheGetEvent;
@@ -171,12 +172,12 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     }
 
     private static Object buildLoaderLockKey(Cache c, Object key) {
-        /*if (c instanceof AbstractEmbeddedCache) {
+        if (c instanceof AbstractEmbeddedCache) {
             return ((AbstractEmbeddedCache) c).buildKey(key);
-        } else if (c instanceof AbstractExternalCache) {
+        }/* else if (c instanceof AbstractExternalCache) {
             byte bytes[] = ((AbstractExternalCache) c).buildKey(key);
             return ByteBuffer.wrap(bytes);
-        } else*/ if (c instanceof MultiLevelCache) {
+        }*/ else if (c instanceof MultiLevelCache) {
             c = ((MultiLevelCache) c).caches()[0];
             return buildLoaderLockKey(c, key);
         } else if(c instanceof ProxyCache) {
