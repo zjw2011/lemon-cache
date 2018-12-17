@@ -51,7 +51,7 @@ public abstract class AbstractCacheBuilder<T extends AbstractCacheBuilder<T>> im
             if (c.getRefreshPolicy() == null) {
                 cache = new LoadingCache<>(cache);
             } else {
-                //cache = new RefreshCache<>(cache);
+                cache = new RefreshCache<>(cache);
             }
         }
         return cache;

@@ -3,6 +3,7 @@ package org.lemonframework.cache;
 import java.io.Closeable;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -154,130 +155,130 @@ public interface Cache<K, V> extends Closeable {
      */
     CacheConfig<K, V> config();
 
-//    /**
-//     * Use this cache attempt to acquire a exclusive lock specified by the key, this method will not block.
-//     * examples:
-//     * <pre>
-//     *   try(AutoReleaseLock lock = cache.tryLock("MyKey",100, TimeUnit.SECONDS)){
-//     *      if(lock != null){
-//     *          // do something
-//     *      }
-//     *   }
-//     * </pre>
-//     * <p>{@link MultiLevelCache} will use the last level cache to support this operation.</p>
-//     * @param key      lockKey
-//     * @param expire   lock expire time
-//     * @param timeUnit lock expire time unit
-//     * @return an AutoReleaseLock(implements java.lang.AutoCloseable) instance if success.
-//     *         or null if the attempt fails, which indicates there is an another thread/process/server has the lock,
-//     *         or error occurs during cache access.
-//     * @see #tryLockAndRun(Object, long, TimeUnit, Runnable)
-//     */
-//    @SuppressWarnings("unchecked")
-//    default AutoReleaseLock tryLock(K key, long expire, TimeUnit timeUnit) {
-//        if (key == null) {
-//            return null;
-//        }
-//        final String uuid = UUID.randomUUID().toString();
-//        final long expireTimestamp = System.currentTimeMillis() + timeUnit.toMillis(expire);
-//        final CacheConfig config = config();
-//
-//
-//        AutoReleaseLock lock = () -> {
-//            int unlockCount = 0;
-//            while (unlockCount++ < config.getTryLockUnlockCount()) {
-//                if(System.currentTimeMillis() < expireTimestamp) {
-//                    CacheResult unlockResult = REMOVE(key);
-//                    if (unlockResult.getResultCode() == CacheResultCode.FAIL
-//                            || unlockResult.getResultCode() == CacheResultCode.PART_SUCCESS) {
-//                        logger.info("[tryLock] [{} of {}] [{}] unlock failed. Key={}, msg = {}",
-//                                unlockCount, config.getTryLockUnlockCount(), uuid, key, unlockResult.getMessage());
-//                        // retry
-//                    } else if (unlockResult.isSuccess()) {
-//                        logger.debug("[tryLock] [{} of {}] [{}] successfully release the lock. Key={}",
-//                                unlockCount, config.getTryLockUnlockCount(), uuid, key);
-//                        return;
-//                    } else {
-//                        logger.warn("[tryLock] [{} of {}] [{}] unexpected unlock result: Key={}, result={}",
-//                                unlockCount, config.getTryLockUnlockCount(), uuid, key, unlockResult.getResultCode());
-//                        return;
-//                    }
-//                } else {
-//                    logger.info("[tryLock] [{} of {}] [{}] lock already expired: Key={}",
-//                            unlockCount, config.getTryLockUnlockCount(), uuid, key);
-//                    return;
-//                }
-//            }
-//        };
-//
-//        int lockCount = 0;
-//        Cache cache = this;
-//        while (lockCount++ < config.getTryLockLockCount()) {
-//            CacheResult lockResult = cache.PUT_IF_ABSENT(key, uuid, expire, timeUnit);
-//            if (lockResult.isSuccess()) {
-//                logger.debug("[tryLock] [{} of {}] [{}] successfully get a lock. Key={}",
-//                        lockCount, config.getTryLockLockCount(), uuid, key);
-//                return lock;
-//            } else if (lockResult.getResultCode() == CacheResultCode.FAIL || lockResult.getResultCode() == CacheResultCode.PART_SUCCESS) {
-//                logger.info("[tryLock] [{} of {}] [{}] cache access failed during get lock, will inquiry {} times. Key={}, msg={}",
-//                        lockCount, config.getTryLockLockCount(), uuid,
-//                        config.getTryLockInquiryCount(), key, lockResult.getMessage());
-//                int inquiryCount = 0;
-//                while (inquiryCount++ < config.getTryLockInquiryCount()) {
-//                    CacheGetResult inquiryResult = cache.GET(key);
-//                    if (inquiryResult.isSuccess()) {
-//                        if (uuid.equals(inquiryResult.getValue())) {
-//                            logger.debug("[tryLock] [{} of {}] [{}] successfully get a lock after inquiry. Key={}",
-//                                    inquiryCount, config.getTryLockInquiryCount(), uuid, key);
-//                            return lock;
-//                        } else {
-//                            logger.debug("[tryLock] [{} of {}] [{}] not the owner of the lock, return null. Key={}",
-//                                    inquiryCount, config.getTryLockInquiryCount(), uuid, key);
-//                            return null;
-//                        }
-//                    } else {
-//                        logger.info("[tryLock] [{} of {}] [{}] inquiry failed. Key={}, msg={}",
-//                                inquiryCount, config.getTryLockInquiryCount(), uuid, key, inquiryResult.getMessage());
-//                        // retry inquiry
-//                    }
-//                }
-//            } else {
-//                // others holds the lock
-//                logger.debug("[tryLock] [{} of {}] [{}] others holds the lock, return null. Key={}",
-//                        lockCount, config.getTryLockLockCount(), uuid, key);
-//                return null;
-//            }
-//        }
-//
-//        logger.debug("[tryLock] [{}] return null after {} attempts. Key={}", uuid, config.getTryLockLockCount(), key);
-//        return null;
-//    }
-//
-//    /**
-//     * Use this cache to try run an action exclusively.
-//     * <p>{@link MultiLevelCache} will use the last level cache to support this operation.</p>
-//     * examples:
-//     * <pre>
-//     * cache.tryLock("MyKey",100, TimeUnit.SECONDS),() -&gt; {
-//     *     //do something
-//     * });
-//     * </pre>
-//     * @param key lockKey
-//     * @param expire lock expire time
-//     * @param timeUnit lock expire time unit
-//     * @param action the action need to execute
-//     * @return true if successfully get the lock and the action is executed
-//     */
-//    default boolean tryLockAndRun(K key, long expire, TimeUnit timeUnit, Runnable action){
-//        try (AutoReleaseLock lock = tryLock(key, expire, timeUnit)) {
-//            if (lock != null) {
-//                action.run();
-//                return true;
-//            } else {
-//                return false;
-//            }
-//        }
-//    }
+    /**
+     * Use this cache attempt to acquire a exclusive lock specified by the key, this method will not block.
+     * examples:
+     * <pre>
+     *   try(AutoReleaseLock lock = cache.tryLock("MyKey",100, TimeUnit.SECONDS)){
+     *      if(lock != null){
+     *          // do something
+     *      }
+     *   }
+     * </pre>
+     * <p>{@link MultiLevelCache} will use the last level cache to support this operation.</p>
+     * @param key      lockKey
+     * @param expire   lock expire time
+     * @param timeUnit lock expire time unit
+     * @return an AutoReleaseLock(implements java.lang.AutoCloseable) instance if success.
+     *         or null if the attempt fails, which indicates there is an another thread/process/server has the lock,
+     *         or error occurs during cache access.
+     * @see #tryLockAndRun(Object, long, TimeUnit, Runnable)
+     */
+    @SuppressWarnings("unchecked")
+    default AutoReleaseLock tryLock(K key, long expire, TimeUnit timeUnit) {
+        if (key == null) {
+            return null;
+        }
+        final String uuid = UUID.randomUUID().toString();
+        final long expireTimestamp = System.currentTimeMillis() + timeUnit.toMillis(expire);
+        final CacheConfig config = config();
+
+
+        AutoReleaseLock lock = () -> {
+            int unlockCount = 0;
+            while (unlockCount++ < config.getTryLockUnlockCount()) {
+                if(System.currentTimeMillis() < expireTimestamp) {
+                    CacheResult unlockResult = REMOVE(key);
+                    if (unlockResult.getResultCode() == CacheResultCode.FAIL
+                            || unlockResult.getResultCode() == CacheResultCode.PART_SUCCESS) {
+                        logger.info("[tryLock] [{} of {}] [{}] unlock failed. Key={}, msg = {}",
+                                unlockCount, config.getTryLockUnlockCount(), uuid, key, unlockResult.getMessage());
+                        // retry
+                    } else if (unlockResult.isSuccess()) {
+                        logger.debug("[tryLock] [{} of {}] [{}] successfully release the lock. Key={}",
+                                unlockCount, config.getTryLockUnlockCount(), uuid, key);
+                        return;
+                    } else {
+                        logger.warn("[tryLock] [{} of {}] [{}] unexpected unlock result: Key={}, result={}",
+                                unlockCount, config.getTryLockUnlockCount(), uuid, key, unlockResult.getResultCode());
+                        return;
+                    }
+                } else {
+                    logger.info("[tryLock] [{} of {}] [{}] lock already expired: Key={}",
+                            unlockCount, config.getTryLockUnlockCount(), uuid, key);
+                    return;
+                }
+            }
+        };
+
+        int lockCount = 0;
+        Cache cache = this;
+        while (lockCount++ < config.getTryLockLockCount()) {
+            CacheResult lockResult = cache.PUT_IF_ABSENT(key, uuid, expire, timeUnit);
+            if (lockResult.isSuccess()) {
+                logger.debug("[tryLock] [{} of {}] [{}] successfully get a lock. Key={}",
+                        lockCount, config.getTryLockLockCount(), uuid, key);
+                return lock;
+            } else if (lockResult.getResultCode() == CacheResultCode.FAIL || lockResult.getResultCode() == CacheResultCode.PART_SUCCESS) {
+                logger.info("[tryLock] [{} of {}] [{}] cache access failed during get lock, will inquiry {} times. Key={}, msg={}",
+                        lockCount, config.getTryLockLockCount(), uuid,
+                        config.getTryLockInquiryCount(), key, lockResult.getMessage());
+                int inquiryCount = 0;
+                while (inquiryCount++ < config.getTryLockInquiryCount()) {
+                    CacheGetResult inquiryResult = cache.GET(key);
+                    if (inquiryResult.isSuccess()) {
+                        if (uuid.equals(inquiryResult.getValue())) {
+                            logger.debug("[tryLock] [{} of {}] [{}] successfully get a lock after inquiry. Key={}",
+                                    inquiryCount, config.getTryLockInquiryCount(), uuid, key);
+                            return lock;
+                        } else {
+                            logger.debug("[tryLock] [{} of {}] [{}] not the owner of the lock, return null. Key={}",
+                                    inquiryCount, config.getTryLockInquiryCount(), uuid, key);
+                            return null;
+                        }
+                    } else {
+                        logger.info("[tryLock] [{} of {}] [{}] inquiry failed. Key={}, msg={}",
+                                inquiryCount, config.getTryLockInquiryCount(), uuid, key, inquiryResult.getMessage());
+                        // retry inquiry
+                    }
+                }
+            } else {
+                // others holds the lock
+                logger.debug("[tryLock] [{} of {}] [{}] others holds the lock, return null. Key={}",
+                        lockCount, config.getTryLockLockCount(), uuid, key);
+                return null;
+            }
+        }
+
+        logger.debug("[tryLock] [{}] return null after {} attempts. Key={}", uuid, config.getTryLockLockCount(), key);
+        return null;
+    }
+
+    /**
+     * Use this cache to try run an action exclusively.
+     * <p>{@link MultiLevelCache} will use the last level cache to support this operation.</p>
+     * examples:
+     * <pre>
+     * cache.tryLock("MyKey",100, TimeUnit.SECONDS),() -&gt; {
+     *     //do something
+     * });
+     * </pre>
+     * @param key lockKey
+     * @param expire lock expire time
+     * @param timeUnit lock expire time unit
+     * @param action the action need to execute
+     * @return true if successfully get the lock and the action is executed
+     */
+    default boolean tryLockAndRun(K key, long expire, TimeUnit timeUnit, Runnable action){
+        try (AutoReleaseLock lock = tryLock(key, expire, timeUnit)) {
+            if (lock != null) {
+                action.run();
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
     /**
      * Gets an entry from the cache.

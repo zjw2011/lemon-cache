@@ -1,5 +1,6 @@
 package org.lemonframework.cache;
 
+import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,6 +21,7 @@ import org.lemonframework.cache.event.CachePutAllEvent;
 import org.lemonframework.cache.event.CachePutEvent;
 import org.lemonframework.cache.event.CacheRemoveAllEvent;
 import org.lemonframework.cache.event.CacheRemoveEvent;
+import org.lemonframework.cache.external.AbstractExternalCache;
 
 /**
  * cache.
@@ -174,10 +176,10 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     private static Object buildLoaderLockKey(Cache c, Object key) {
         if (c instanceof AbstractEmbeddedCache) {
             return ((AbstractEmbeddedCache) c).buildKey(key);
-        }/* else if (c instanceof AbstractExternalCache) {
+        } else if (c instanceof AbstractExternalCache) {
             byte bytes[] = ((AbstractExternalCache) c).buildKey(key);
             return ByteBuffer.wrap(bytes);
-        }*/ else if (c instanceof MultiLevelCache) {
+        } else if (c instanceof MultiLevelCache) {
             c = ((MultiLevelCache) c).caches()[0];
             return buildLoaderLockKey(c, key);
         } else if(c instanceof ProxyCache) {
