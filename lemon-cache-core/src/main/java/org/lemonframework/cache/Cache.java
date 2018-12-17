@@ -183,7 +183,6 @@ public interface Cache<K, V> extends Closeable {
         final long expireTimestamp = System.currentTimeMillis() + timeUnit.toMillis(expire);
         final CacheConfig config = config();
 
-
         AutoReleaseLock lock = () -> {
             int unlockCount = 0;
             while (unlockCount++ < config.getTryLockUnlockCount()) {

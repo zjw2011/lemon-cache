@@ -3,7 +3,7 @@ package org.lemonframework.cache;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.lemonframework.cache.embedded.LinkedHashMapCacheBuilder;
 
 /**
