@@ -35,12 +35,12 @@ public class CacheConfig<K, V> implements Cloneable {
     public CacheConfig clone() {
         try {
             CacheConfig copy = (CacheConfig) super.clone();
-//            if (monitors != null) {
-//                copy.monitors = new ArrayList(this.monitors);
-//            }
-//            if (refreshPolicy != null) {
-//                copy.refreshPolicy = this.refreshPolicy.clone();
-//            }
+            if (monitors != null) {
+                copy.monitors = new ArrayList(this.monitors);
+            }
+            if (refreshPolicy != null) {
+                copy.refreshPolicy = this.refreshPolicy.clone();
+            }
             return copy;
         } catch (CloneNotSupportedException e) {
             throw new CacheException(e);
