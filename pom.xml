@@ -10,7 +10,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>lemon-cache-core</module>
-        <module>lemon-cache-parent</module>
     </modules>
 
 
