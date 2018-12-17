@@ -1,9 +1,15 @@
-package org.lemonframework.cache;
+package org.lemonframework.cache.test;
 
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.lemonframework.cache.AutoReleaseLock;
+import org.lemonframework.cache.Cache;
+import org.lemonframework.cache.CacheConfig;
+import org.lemonframework.cache.CacheGetResult;
+import org.lemonframework.cache.CacheResult;
+import org.lemonframework.cache.CacheResultCode;
 import org.lemonframework.cache.embedded.LinkedHashMapCacheBuilder;
 import org.mockito.stubbing.Answer;
 
@@ -21,6 +27,7 @@ import static org.mockito.Mockito.when;
  * @author jiawei zhang
  * @since 0.0.1
  */
+@SuppressWarnings("unchecked")
 public class CacheTest {
 
     private Cache cache;
