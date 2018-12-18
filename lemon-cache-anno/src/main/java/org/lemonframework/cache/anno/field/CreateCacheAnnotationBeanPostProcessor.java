@@ -26,11 +26,12 @@ import org.lemonframework.cache.anno.CreateCache;
 /**
  * create cache.
  *
+ * Component: necessary when spring boot version <= 1.2.X
  * @see AutowiredAnnotationBeanPostProcessor
  * @author jiawei zhang
  * @since 0.0.1
  */
-@Component // necessary when spring boot version <= 1.2.X
+@Component
 public class CreateCacheAnnotationBeanPostProcessor extends AutowiredAnnotationBeanPostProcessor {
 
     private static Logger logger = LoggerFactory.getLogger(CreateCacheAnnotationBeanPostProcessor.class);
@@ -126,8 +127,9 @@ public class CreateCacheAnnotationBeanPostProcessor extends AutowiredAnnotationB
         do {
             final LinkedList<InjectionMetadata.InjectedElement> currElements =
                     new LinkedList<InjectionMetadata.InjectedElement>();
-
             doWithLocalFields(targetClass, new ReflectionUtils.FieldCallback() {
+
+                @Override
                 public void doWith(Field field) throws IllegalArgumentException, IllegalAccessException {
                     CreateCache ann = field.getAnnotation(CreateCache.class);
                     if (ann != null) {
