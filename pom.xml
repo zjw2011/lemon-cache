@@ -15,6 +15,7 @@
         <module>lemon-cache-autoconfigure</module>
         <module>lemon-cache-redis</module>
         <module>lemon-cache-starter-redis</module>
+        <module>lemon-cache-redis-lettuce</module>
     </modules>
 
 

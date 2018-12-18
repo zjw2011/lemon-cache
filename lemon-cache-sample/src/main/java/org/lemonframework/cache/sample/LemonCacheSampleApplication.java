@@ -1,5 +1,6 @@
 package org.lemonframework.cache.sample;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,14 +11,25 @@ import org.lemonframework.cache.CacheGetResult;
 import org.lemonframework.cache.anno.CacheType;
 import org.lemonframework.cache.anno.CreateCache;
 import org.lemonframework.cache.anno.config.EnableCreateCacheAnnotation;
+import org.lemonframework.cache.anno.config.EnableMethodCache;
+import org.lemonframework.cache.sample.model.User;
+import org.lemonframework.cache.sample.service.UserService;
 
+/**
+ * entry.
+ * @author jiawei zhang
+ */
 @SpringBootApplication
 @EnableCreateCacheAnnotation
+@EnableMethodCache(basePackages = "org.lemonframework.cache.sample")
 @RestController
 public class LemonCacheSampleApplication {
 
     @CreateCache(expire = 100, cacheType = CacheType.LOCAL)
     private Cache<Long, String> userCache;
+
+    @Autowired
+    private UserService userService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(LemonCacheSampleApplication.class, args);
@@ -36,6 +48,11 @@ public class LemonCacheSampleApplication {
 //        final CacheGetResult<String> r = userCache.GET(123L);
 //        System.out.println(r.getValue());
 //        System.out.println(r.getMessage());
+    }
+
+    @GetMapping("/user")
+    public User getUser() {
+	    return userService.getUserById(1);
     }
 
 }
