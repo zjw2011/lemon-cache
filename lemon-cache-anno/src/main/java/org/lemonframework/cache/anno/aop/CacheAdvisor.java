@@ -13,7 +13,7 @@ import org.lemonframework.cache.anno.support.ConfigMap;
  */
 public class CacheAdvisor extends AbstractBeanFactoryPointcutAdvisor {
 
-    public static final String CACHE_ADVISOR_BEAN_NAME = "lemon.cache2.internalCacheAdvisor";
+    public static final String CACHE_ADVISOR_BEAN_NAME = "lemon.cache.internalCacheAdvisor";
 
     private ConfigMap cacheConfigMap;
 

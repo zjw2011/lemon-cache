@@ -1,6 +1,3 @@
-/**
- * Created on  13-09-18 20:33
- */
 package org.lemonframework.cache.anno.aop;
 
 import java.lang.reflect.Method;
@@ -25,7 +22,7 @@ import org.lemonframework.cache.anno.support.GlobalCacheConfig;
  */
 public class LemonCacheInterceptor implements MethodInterceptor, ApplicationContextAware {
 
-    //private static final Logger logger = LoggerFactory.getLogger(JetCacheInterceptor.class);
+    //private static final Logger logger = LoggerFactory.getLogger(LemonCacheInterceptor.class);
 
     private ConfigMap cacheConfigMap;
     private ApplicationContext applicationContext;

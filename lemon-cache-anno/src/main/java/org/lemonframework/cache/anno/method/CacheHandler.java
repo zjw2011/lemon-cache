@@ -199,11 +199,11 @@ public class CacheHandler implements InvocationHandler {
             Iterable keyIt = toIterable(key);
             Iterable valueIt = toIterable(value);
             if (keyIt == null) {
-                logger.error("jetcache @CacheUpdate key is not instance of Iterable or array: " + updateAnnoConfig.getDefineMethod());
+                logger.error("lemoncache @CacheUpdate key is not instance of Iterable or array: " + updateAnnoConfig.getDefineMethod());
                 return;
             }
             if(valueIt == null) {
-                logger.error("jetcache @CacheUpdate value is not instance of Iterable or array: " + updateAnnoConfig.getDefineMethod());
+                logger.error("lemoncache @CacheUpdate value is not instance of Iterable or array: " + updateAnnoConfig.getDefineMethod());
                 return;
             }
 
@@ -212,7 +212,7 @@ public class CacheHandler implements InvocationHandler {
             keyIt.forEach(o -> keyList.add(o));
             valueIt.forEach(o -> valueList.add(o));
             if (keyList.size() != valueList.size()) {
-                logger.error("jetcache @CacheUpdate key size not equals with value size: " + updateAnnoConfig.getDefineMethod());
+                logger.error("lemoncache @CacheUpdate key size not equals with value size: " + updateAnnoConfig.getDefineMethod());
                 return;
             } else {
                 Map m = new HashMap();

@@ -44,7 +44,7 @@ public class LemonCacheProxyConfiguration implements ImportAware, ApplicationCon
 
     @Bean(name = CacheAdvisor.CACHE_ADVISOR_BEAN_NAME)
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public CacheAdvisor jetcacheAdvisor() {
+    public CacheAdvisor lemonCacheAdvisor() {
         ConfigMap configMap = new ConfigMap();
 
         LemonCacheInterceptor lemonCacheInterceptor = new LemonCacheInterceptor();
