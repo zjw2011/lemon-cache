@@ -2,7 +2,6 @@ package org.lemonframework.cache.autoconfigure;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +20,8 @@ import org.lemonframework.cache.anno.support.SpringConfigProvider;
 @ConditionalOnClass(GlobalCacheConfig.class)
 @ConditionalOnMissingBean(GlobalCacheConfig.class)
 @EnableConfigurationProperties(LemonCacheProperties.class)
-@Import({LinkedHashMapAutoConfiguration.class})
+@Import({LinkedHashMapAutoConfiguration.class,
+        CaffeineAutoConfiguration.class})
 public class LemonCacheAutoConfiguration {
 
     public static final String GLOBAL_CACHE_CONFIG_NAME = "globalCacheConfig";

@@ -22,6 +22,7 @@ import org.lemonframework.cache.event.CachePutEvent;
 import org.lemonframework.cache.event.CacheRemoveAllEvent;
 import org.lemonframework.cache.event.CacheRemoveEvent;
 import org.lemonframework.cache.external.AbstractExternalCache;
+import org.lemonframework.cache.support.FastjsonKeyConvertor;
 
 /**
  * cache.
@@ -44,6 +45,40 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
             }
         }
         return loaderMap;
+    }
+
+    protected void logError(String oper, Object key, Throwable e) {
+        StringBuilder sb = new StringBuilder(64);
+        sb.append("jetcache(")
+                .append(this.getClass().getSimpleName()).append(") ")
+                .append(oper)
+                .append(" error. key=")
+                .append(FastjsonKeyConvertor.INSTANCE.apply(key))
+                .append(".");
+        if (needLogStackTrace(e)) {
+            logger.error(sb.toString(), e);
+        } else {
+            sb.append(' ');
+            while (e != null) {
+                sb.append(e.getClass().getName());
+                sb.append(':');
+                sb.append(e.getMessage());
+                e = e.getCause();
+                if (e != null) {
+                    sb.append("\ncause by ");
+                }
+            }
+            logger.error(sb.toString());
+        }
+
+    }
+
+    protected boolean needLogStackTrace(Throwable e) {
+//        if (e instanceof CacheEncodeException) {
+//            return true;
+//        }
+//        return false;
+        return true;
     }
 
     public void notify(CacheEvent e) {

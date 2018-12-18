@@ -13,6 +13,8 @@
         <module>lemon-cache-anno</module>
         <module>lemon-cache-anno-api</module>
         <module>lemon-cache-autoconfigure</module>
+        <module>lemon-cache-redis</module>
+        <module>lemon-cache-starter-redis</module>
     </modules>
 
 
