@@ -6,9 +6,10 @@ import org.lemonframework.cache.anno.support.CacheContext;
 import org.lemonframework.cache.anno.support.GlobalCacheConfig;
 
 /**
- * Created on 2016/10/19.
+ * spring cache context.
  *
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class SpringCacheContext extends CacheContext {
 

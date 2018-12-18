@@ -1,12 +1,12 @@
-/**
- * Created on 2018/1/23.
- */
 package org.lemonframework.cache.anno.support;
 
 import java.util.function.Function;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * cache update anno config.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class CacheUpdateAnnoConfig extends CacheAnnoConfig {
 

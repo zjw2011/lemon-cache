@@ -1,13 +1,13 @@
-/**
- * Created on 2018/3/22.
- */
 package org.lemonframework.cache.anno.support;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * cache name generator.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public interface CacheNameGenerator {
 

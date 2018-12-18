@@ -15,9 +15,10 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.util.Assert;
 
 /**
- * Created on 2016/11/28.
+ * cache condition.
  *
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public abstract class LemonCacheCondition extends SpringBootCondition {
 

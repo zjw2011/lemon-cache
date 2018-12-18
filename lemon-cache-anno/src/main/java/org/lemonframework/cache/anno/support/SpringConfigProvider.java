@@ -12,9 +12,10 @@ import org.lemonframework.cache.support.JavaValueDecoder;
 import org.lemonframework.cache.support.SpringJavaValueDecoder;
 
 /**
- * Created on 2016/12/1.
+ * spring config provider.
  *
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class SpringConfigProvider extends ConfigProvider implements ApplicationContextAware {
     private ApplicationContext applicationContext;

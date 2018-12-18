@@ -1,9 +1,10 @@
 package org.lemonframework.cache.anno;
 
 /**
- * Created on 2016/12/12.
+ * key convertor.
  *
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public interface KeyConvertor {
     String NONE = "NONE";

@@ -7,9 +7,10 @@ import redis.clients.jedis.Jedis;
 import redis.clients.util.Pool;
 
 /**
- * Created on 2016/12/28.
+ * jedis pool factory.
  *
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class JedisPoolFactory implements FactoryBean<Pool<Jedis>> {
     private String key;

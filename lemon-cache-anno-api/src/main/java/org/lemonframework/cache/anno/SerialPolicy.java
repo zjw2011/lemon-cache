@@ -1,12 +1,12 @@
-/**
- * Created on  13-10-31 22:46
- */
 package org.lemonframework.cache.anno;
 
 import java.util.function.Function;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * serial policy.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public interface SerialPolicy {
     String JAVA = "JAVA";

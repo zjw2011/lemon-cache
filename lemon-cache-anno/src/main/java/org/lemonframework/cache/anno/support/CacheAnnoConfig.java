@@ -6,7 +6,10 @@ import java.util.function.Function;
 import org.lemonframework.cache.Cache;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * cache anno config.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class CacheAnnoConfig {
     private String area;

@@ -1,6 +1,3 @@
-/**
- * Created on  13-09-09 17:29
- */
 package org.lemonframework.cache.anno.support;
 
 import java.util.Map;
@@ -11,7 +8,10 @@ import org.springframework.beans.factory.InitializingBean;
 import org.lemonframework.cache.CacheBuilder;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * global cache config.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class GlobalCacheConfig implements InitializingBean, DisposableBean {
 

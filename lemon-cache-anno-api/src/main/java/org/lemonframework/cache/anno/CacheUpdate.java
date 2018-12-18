@@ -10,7 +10,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * cache update.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

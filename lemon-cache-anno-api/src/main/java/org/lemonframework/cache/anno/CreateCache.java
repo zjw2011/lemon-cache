@@ -8,9 +8,10 @@ import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created on 2016/12/9.
+ * create cache.
  *
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

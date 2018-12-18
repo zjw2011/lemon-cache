@@ -26,9 +26,10 @@ import redis.clients.jedis.Protocol;
 import redis.clients.util.Pool;
 
 /**
- * Created on 2016/11/25.
+ * redis auto configuration.
  *
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 @Configuration
 @Conditional(RedisAutoConfiguration.RedisCondition.class)

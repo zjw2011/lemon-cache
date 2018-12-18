@@ -5,9 +5,10 @@ import org.lemonframework.cache.anno.CacheConsts;
 import org.lemonframework.cache.embedded.EmbeddedCacheBuilder;
 
 /**
- * Created on 2016/12/2.
+ * embedded cache autoinit.
  *
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public abstract class EmbeddedCacheAutoInit extends AbstractCacheAutoInit {
 

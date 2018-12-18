@@ -3,9 +3,10 @@ package org.lemonframework.cache.autoconfigure;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * Created on 2016/11/23.
+ * cache properties.
  *
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 @ConfigurationProperties(prefix = "lemon.cache")
 public class LemonCacheProperties {

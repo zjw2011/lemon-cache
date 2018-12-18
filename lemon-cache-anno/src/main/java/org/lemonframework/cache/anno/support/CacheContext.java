@@ -1,6 +1,3 @@
-/**
- * Created on  13-09-04 15:34
- */
 package org.lemonframework.cache.anno.support;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,7 +22,10 @@ import org.lemonframework.cache.support.DefaultCacheMonitor;
 import org.lemonframework.cache.support.DefaultCacheMonitorManager;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * cache context.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class CacheContext {
 

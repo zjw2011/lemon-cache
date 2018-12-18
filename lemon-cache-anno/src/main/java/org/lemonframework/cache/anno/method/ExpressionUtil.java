@@ -1,6 +1,3 @@
-/**
- * Created on  13-10-02 18:38
- */
 package org.lemonframework.cache.anno.method;
 
 import org.slf4j.Logger;
@@ -12,7 +9,10 @@ import org.lemonframework.cache.anno.support.CacheUpdateAnnoConfig;
 import org.lemonframework.cache.anno.support.CachedAnnoConfig;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * expression util.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 class ExpressionUtil {
 

@@ -11,7 +11,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.asm.Type;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * class util.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class ClassUtil {
 

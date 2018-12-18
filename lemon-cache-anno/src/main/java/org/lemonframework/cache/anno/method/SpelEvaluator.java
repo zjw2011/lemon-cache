@@ -1,6 +1,3 @@
-/**
- * Created on 2018/1/19.
- */
 package org.lemonframework.cache.anno.method;
 
 import java.lang.reflect.Constructor;
@@ -18,6 +15,12 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import org.lemonframework.cache.CacheException;
 
+/**
+ * spel evaluator.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
+ */
 class SpelEvaluator implements Function<Object, Object> {
 
     private static ExpressionParser parser;

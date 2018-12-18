@@ -3,7 +3,10 @@ package org.lemonframework.cache.anno;
 import java.time.Duration;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * cache constants.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public interface CacheConsts {
     String DEFAULT_AREA = "default";

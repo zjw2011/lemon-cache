@@ -1,6 +1,3 @@
-/**
- * Created on 2018/4/27.
- */
 package org.lemonframework.cache.anno;
 
 import java.lang.annotation.Documented;
@@ -10,7 +7,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * cache penetration protect.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

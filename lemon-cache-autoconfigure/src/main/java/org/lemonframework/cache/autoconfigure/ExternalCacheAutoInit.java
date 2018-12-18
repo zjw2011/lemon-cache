@@ -5,9 +5,10 @@ import org.lemonframework.cache.anno.CacheConsts;
 import org.lemonframework.cache.external.ExternalCacheBuilder;
 
 /**
- * Created on 2016/11/29.
+ * external cache autoinit.
  *
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public abstract class ExternalCacheAutoInit extends AbstractCacheAutoInit {
     public ExternalCacheAutoInit(String... cacheTypes) {

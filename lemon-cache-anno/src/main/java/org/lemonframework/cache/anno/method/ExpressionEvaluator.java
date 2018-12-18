@@ -1,6 +1,3 @@
-/**
- * Created on 2018/1/19.
- */
 package org.lemonframework.cache.anno.method;
 
 import java.lang.reflect.Method;
@@ -11,7 +8,10 @@ import java.util.regex.Pattern;
 import org.lemonframework.cache.CacheConfigException;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * expression evaluator.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class ExpressionEvaluator implements Function<Object, Object> {
     private static final Pattern pattern = Pattern.compile("\\s*(\\w+)\\s*\\{(.+)\\}\\s*");

@@ -1,10 +1,10 @@
-/**
- * Created on  13-09-11 17:21
- */
 package org.lemonframework.cache.anno.support;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * cache thread local.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 class CacheThreadLocal {
 

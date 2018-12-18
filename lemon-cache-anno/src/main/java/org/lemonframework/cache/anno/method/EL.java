@@ -1,10 +1,10 @@
-/**
- * Created on  13-10-02 23:44
- */
 package org.lemonframework.cache.anno.method;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * enum.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 enum EL {
     BUILD_IN, MVEL, SPRING_EL

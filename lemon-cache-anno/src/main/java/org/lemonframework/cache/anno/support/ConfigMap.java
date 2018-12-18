@@ -6,7 +6,10 @@ import org.lemonframework.cache.anno.CacheConsts;
 import org.lemonframework.cache.anno.method.CacheInvokeConfig;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * config map.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class ConfigMap {
     private ConcurrentHashMap<String, CacheInvokeConfig> methodInfoMap = new ConcurrentHashMap<>();

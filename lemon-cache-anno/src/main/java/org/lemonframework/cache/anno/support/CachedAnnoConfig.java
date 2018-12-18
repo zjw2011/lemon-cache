@@ -7,7 +7,10 @@ import org.lemonframework.cache.RefreshPolicy;
 import org.lemonframework.cache.anno.CacheType;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * cache anno config.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class CachedAnnoConfig extends CacheAnnoConfig {
 

@@ -1,6 +1,3 @@
-/**
- * Created on 2018/3/22.
- */
 package org.lemonframework.cache.anno.support;
 
 import java.lang.reflect.Field;
@@ -11,7 +8,10 @@ import java.util.regex.Pattern;
 import org.lemonframework.cache.anno.method.ClassUtil;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * default cache name generator.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class DefaultCacheNameGenerator implements CacheNameGenerator {
 

@@ -1,6 +1,3 @@
-/**
- * Created on 2018/2/1.
- */
 package org.lemonframework.cache.anno;
 
 import java.lang.annotation.Documented;
@@ -11,7 +8,10 @@ import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * cache refresh.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

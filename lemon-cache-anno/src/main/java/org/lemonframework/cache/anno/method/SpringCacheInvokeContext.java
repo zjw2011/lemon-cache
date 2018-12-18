@@ -1,12 +1,12 @@
-/**
- * Created on  13-10-07 23:25
- */
 package org.lemonframework.cache.anno.method;
 
 import org.springframework.context.ApplicationContext;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * spring cache invoker context.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class SpringCacheInvokeContext extends CacheInvokeContext {
     protected ApplicationContext context;
