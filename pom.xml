@@ -16,6 +16,7 @@
         <module>lemon-cache-redis</module>
         <module>lemon-cache-starter-redis</module>
         <module>lemon-cache-redis-lettuce</module>
+        <module>lemon-cache-starter-redis-lettuce</module>
     </modules>
 
 

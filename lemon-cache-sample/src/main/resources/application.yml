@@ -8,10 +8,17 @@ lemon:
         keyConvertor: fastjson
     remote:
       default:
-        type: redis
+        type: redis.lettuce
         keyConvertor: fastjson
         valueEncoder: java
         valueDecoder: java
+        uri:
+        - "redis://iMfnd14%23ra66N0ep@10.9.3.22:6344"
+        - "redis://iMfnd14%23ra66N0ep@10.9.3.22:6355"
+        - "redis://iMfnd14%23ra66N0ep@10.9.3.22:6366"
+        - "redis://iMfnd14%23ra66N0ep@10.9.3.22:6377"
+        - "redis://iMfnd14%23ra66N0ep@10.9.3.22:6388"
+        - "redis://iMfnd14%23ra66N0ep@10.9.3.22:6399"
         poolConfig:
           minIdle: 5
           maxIdle: 20
