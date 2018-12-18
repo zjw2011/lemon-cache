@@ -7,7 +7,10 @@ import org.lemonframework.cache.Cache;
 import org.lemonframework.cache.anno.support.CacheAnnoConfig;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * cache invoker context.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class CacheInvokeContext {
     private Invoker invoker;

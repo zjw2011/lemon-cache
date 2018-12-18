@@ -29,7 +29,10 @@ import org.lemonframework.cache.anno.support.ConfigMap;
 import org.lemonframework.cache.event.CacheLoadEvent;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * cache handler.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class CacheHandler implements InvocationHandler {
     private static Logger logger = LoggerFactory.getLogger(CacheHandler.class);

@@ -18,7 +18,10 @@ import org.lemonframework.cache.anno.support.CachedAnnoConfig;
 import org.lemonframework.cache.anno.support.PenetrationProtectConfig;
 
 /**
- * @author <a href="mailto:areyouok@gmail.com">huangli</a>
+ * config util.
+ *
+ * @author jiawei zhang
+ * @since 0.0.1
  */
 public class CacheConfigUtil {
     private static CachedAnnoConfig parseCached(Method m) {
