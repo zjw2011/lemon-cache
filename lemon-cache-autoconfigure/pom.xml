@@ -55,6 +55,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.lemonframework.cache</groupId>
+            <artifactId>lemon-cache-redis-lettuce</artifactId>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
             <scope>compile</scope>

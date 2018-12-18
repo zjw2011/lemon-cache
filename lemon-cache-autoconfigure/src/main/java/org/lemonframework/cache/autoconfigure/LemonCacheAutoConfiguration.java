@@ -22,7 +22,8 @@ import org.lemonframework.cache.anno.support.SpringConfigProvider;
 @EnableConfigurationProperties(LemonCacheProperties.class)
 @Import({LinkedHashMapAutoConfiguration.class,
         CaffeineAutoConfiguration.class,
-        RedisAutoConfiguration.class})
+        RedisAutoConfiguration.class,
+        RedisLettuceAutoConfiguration.class})
 public class LemonCacheAutoConfiguration {
 
     public static final String GLOBAL_CACHE_CONFIG_NAME = "globalCacheConfig";

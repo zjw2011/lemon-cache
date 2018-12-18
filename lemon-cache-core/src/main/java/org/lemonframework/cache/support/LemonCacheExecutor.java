@@ -21,7 +21,7 @@ public class LemonCacheExecutor {
         synchronized (LemonCacheExecutor.class) {
             if (defaultExecutor == null) {
                 defaultExecutor = Executors.newSingleThreadScheduledExecutor(r -> {
-                    Thread t = new Thread(r, "JetCacheDefaultExecutor");
+                    Thread t = new Thread(r, "LemonCacheDefaultExecutor");
                     t.setDaemon(true);
                     return t;
                 });
@@ -37,7 +37,7 @@ public class LemonCacheExecutor {
         synchronized (LemonCacheExecutor.class) {
             if (heavyIOExecutor == null) {
                 heavyIOExecutor = Executors.newScheduledThreadPool(10, r -> {
-                    Thread t = new Thread(r, "JetCacheHeavyIOExecutor" + threadCount++);
+                    Thread t = new Thread(r, "LemonCacheHeavyIOExecutor" + threadCount++);
                     t.setDaemon(true);
                     return t;
                 });
