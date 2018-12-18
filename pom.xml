@@ -12,6 +12,7 @@
         <module>lemon-cache-core</module>
         <module>lemon-cache-anno</module>
         <module>lemon-cache-anno-api</module>
+        <module>lemon-cache-autoconfigure</module>
     </modules>
 
 
