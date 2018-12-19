@@ -18,6 +18,7 @@
         <module>lemon-cache-redis-lettuce</module>
         <module>lemon-cache-starter-redis-lettuce</module>
         <module>lemon-cache-redisson</module>
+        <module>lemon-cache-starter-redisson</module>
     </modules>
 
 
