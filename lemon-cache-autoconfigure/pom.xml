@@ -41,15 +41,15 @@
         </dependency>
 
         <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
+            <groupId>org.lemonframework.cache</groupId>
+            <artifactId>lemon-cache-redis</artifactId>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>org.lemonframework.cache</groupId>
-            <artifactId>lemon-cache-redis</artifactId>
+            <artifactId>lemon-cache-redisson</artifactId>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>

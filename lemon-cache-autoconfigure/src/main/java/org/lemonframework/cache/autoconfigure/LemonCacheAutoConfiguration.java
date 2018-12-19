@@ -23,7 +23,8 @@ import org.lemonframework.cache.anno.support.SpringConfigProvider;
 @Import({LinkedHashMapAutoConfiguration.class,
         CaffeineAutoConfiguration.class,
         RedisAutoConfiguration.class,
-        RedisLettuceAutoConfiguration.class})
+        RedisLettuceAutoConfiguration.class,
+        RedissonAutoConfiguration.class})
 public class LemonCacheAutoConfiguration {
 
     public static final String GLOBAL_CACHE_CONFIG_NAME = "globalCacheConfig";
