@@ -1,7 +1,13 @@
 package org.lemonframework.cache.redisson;
 
+import java.io.UnsupportedEncodingException;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
 import org.lemonframework.cache.CacheConfig;
@@ -11,12 +17,17 @@ import org.lemonframework.cache.CacheResult;
 import org.lemonframework.cache.CacheResultCode;
 import org.lemonframework.cache.CacheValueHolder;
 import org.lemonframework.cache.MultiGetResult;
+import org.lemonframework.cache.ResultData;
 import org.lemonframework.cache.external.AbstractExternalCache;
+import org.lemonframework.cache.support.LemonCacheExecutor;
 import org.redisson.api.RBucket;
+import org.redisson.api.RBuckets;
+import org.redisson.api.RFuture;
+import org.redisson.api.RKeys;
 import org.redisson.api.RedissonClient;
 
 /**
- * cache.
+ * redisson cache.
  *
  * @author jiawei zhang
  * @since 0.0.1
@@ -37,6 +48,11 @@ public class RedissonCache<K, V> extends AbstractExternalCache<K, V> {
         }
     }
 
+    private void setTimeout(CacheResult cr) {
+        Duration d = Duration.ofMillis(config.getAsyncResultTimeoutInMillis());
+        cr.setTimeout(d);
+    }
+
     @Override
     protected CacheGetResult<V> do_GET(K key) {
         if (key == null) {
@@ -47,46 +63,235 @@ public class RedissonCache<K, V> extends AbstractExternalCache<K, V> {
             byte[] newKey = buildKey(key);
             String newStringKey = new String(newKey, "UTF-8");
             RBucket<V> rBucket = redissonClient.getBucket(newStringKey);
-            CacheValueHolder<V> holder = new CacheValueHolder<V>(rBucket.get(), config.getExpireAfterWriteInMillis());
-            if (System.currentTimeMillis() >= holder.getExpireTime()) {
-                return CacheGetResult.EXPIRED_WITHOUT_MSG;
-            }
-            return new CacheGetResult(CacheResultCode.SUCCESS, null, holder);
+            final RFuture<V> future = rBucket.getAsync();
 
+            CacheGetResult result = new CacheGetResult(future.handle((valueBytes, ex) -> {
+                if (ex != null) {
+                    LemonCacheExecutor.defaultExecutor().execute(() -> logError("GET", key, ex));
+                    return new ResultData(ex);
+                } else {
+                    if (valueBytes != null) {
+                        CacheValueHolder<V> holder = new CacheValueHolder<V>(valueBytes, config.getExpireAfterWriteInMillis());
+                        if (System.currentTimeMillis() >= holder.getExpireTime()) {
+                            return new ResultData(CacheResultCode.EXPIRED, null, null);
+                        } else {
+                            return new ResultData(CacheResultCode.SUCCESS, null, holder);
+                        }
+                    } else {
+                        return new ResultData(CacheResultCode.NOT_EXISTS, null, null);
+                    }
+                }
+            }));
+            setTimeout(result);
+            return result;
         } catch (Exception ex) {
             logError("GET", key, ex);
             return new CacheGetResult(ex);
         }
     }
 
+    private String buildStringKey(K key) {
+        if (key == null) {
+            return null;
+        }
+        try {
+            final byte[] bytes = buildKey(key);
+            return new String(bytes, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
     @Override
     protected MultiGetResult<K, V> do_GET_ALL(Set<? extends K> keys) {
-        return null;
+
+        ArrayList<K> keyList = new ArrayList<K>(keys);
+
+        String[] newKeys = keyList.stream().map((k) -> buildStringKey(k))
+                .filter(k -> (k != null))
+                .toArray(String[]::new);
+
+        Map<K, CacheGetResult<V>> resultMap = new HashMap<>();
+        if (newKeys.length == 0) {
+            return new MultiGetResult<K, V>(CacheResultCode.SUCCESS, null, resultMap);
+        }
+
+        final RBuckets buckets = redissonClient.getBuckets();
+        final RFuture<Map<String, V>> future = buckets.getAsync(newKeys);
+
+        MultiGetResult result = new MultiGetResult<K, V>(future.handle((map, ex) -> {
+            if (ex != null) {
+                LemonCacheExecutor.defaultExecutor().execute(() -> logError("GET_ALL", "keys(" + keys.size() + ")", ex));
+                return new ResultData(ex);
+            } else {
+                int keysLen = keyList.size();
+                for (int i = 0; i < keysLen; i++) {
+                    K ramKey = keyList.get(i);
+                    String key = buildStringKey(ramKey);
+                    if (key == null) {
+                        continue;
+                    }
+                    CacheValueHolder<V> holder = new CacheValueHolder<V>(map.get(key), config.getExpireAfterWriteInMillis());
+
+                    CacheGetResult<V> r = new CacheGetResult<V>(CacheResultCode.SUCCESS, null, holder);
+
+                    resultMap.put(ramKey, r);
+                }
+                return new ResultData(CacheResultCode.SUCCESS, null, resultMap);
+            }
+        }));
+        setTimeout(result);
+        return result;
     }
 
     @Override
     protected CacheResult do_PUT(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
-        return null;
+        if (key == null) {
+            return CacheResult.FAIL_ILLEGAL_ARGUMENT;
+        }
+        try {
+            byte[] newKey = buildKey(key);
+            String newStringKey = new String(newKey, "UTF-8");
+            RBucket<V> rBucket = redissonClient.getBucket(newStringKey);
+            final RFuture<Void> future = rBucket.setAsync(value, expireAfterWrite, timeUnit);
+            CacheResult result = new CacheResult(future.handle((rt, ex) -> {
+                if (ex != null) {
+                    LemonCacheExecutor.defaultExecutor().execute(() -> logError("PUT", key, ex));
+                    return new ResultData(ex);
+                } else {
+                    return new ResultData(CacheResultCode.SUCCESS, null, null);
+                }
+            }));
+            setTimeout(result);
+            return result;
+        } catch (Exception ex) {
+            logError("PUT", key, ex);
+            return new CacheResult(ex);
+        }
     }
 
     @Override
     protected CacheResult do_PUT_ALL(Map<? extends K, ? extends V> map, long expireAfterWrite, TimeUnit timeUnit) {
-        return null;
+        if (map == null) {
+            return CacheResult.FAIL_ILLEGAL_ARGUMENT;
+        }
+        try {
+            CompletionStage<Integer> future = CompletableFuture.completedFuture(0);
+            for (Map.Entry<? extends K, ? extends V> en : map.entrySet()) {
+                byte[] newKey = buildKey(en.getKey());
+                String newStringKey = new String(newKey, "UTF-8");
+                RBucket<V> rBucket = redissonClient.getBucket(newStringKey);
+                final RFuture<Void> rFuture = rBucket.setAsync(en.getValue(), expireAfterWrite, timeUnit);
+                future = future.thenCombine(rFuture, (failCount, respStr) -> respStr == null ? failCount : failCount + 1);
+            }
+
+            CacheResult result = new CacheResult(future.handle((failCount, ex) -> {
+                if (ex != null) {
+                    LemonCacheExecutor.defaultExecutor().execute(() -> logError("PUT_ALL", "map(" + map.size() + ")", ex));
+                    return new ResultData(ex);
+                } else {
+                    return new ResultData(CacheResultCode.SUCCESS, null, null);
+                }
+            }));
+            setTimeout(result);
+            return result;
+        } catch (Exception ex) {
+            logError("PUT_ALL", "map(" + map.size() + ")", ex);
+            return new CacheResult(ex);
+        }
     }
 
     @Override
     protected CacheResult do_REMOVE(K key) {
-        return null;
+
+        if (key == null) {
+            return CacheResult.FAIL_ILLEGAL_ARGUMENT;
+        }
+
+        try {
+            byte[] newKey = buildKey(key);
+            String newStringKey = new String(newKey, "UTF-8");
+
+            RBucket<V> rBucket = redissonClient.getBucket(newStringKey);
+            final RFuture<Boolean> future = rBucket.deleteAsync();
+
+            CacheResult result = new CacheResult(future.handle((success, ex) -> {
+                if (ex != null) {
+                    LemonCacheExecutor.defaultExecutor().execute(() -> logError("REMOVE", key, ex));
+                    return new ResultData(ex);
+                } else {
+                    CacheResultCode resultCode = (success.booleanValue()) ? CacheResultCode.SUCCESS : CacheResultCode.FAIL;
+                    return new ResultData(resultCode, null, null);
+                }
+            }));
+            setTimeout(result);
+            return result;
+        } catch (Exception ex) {
+            logError("REMOVE", key, ex);
+            return new CacheResult(ex);
+        }
     }
 
     @Override
     protected CacheResult do_REMOVE_ALL(Set<? extends K> keys) {
-        return null;
+        if (keys == null) {
+            return CacheResult.FAIL_ILLEGAL_ARGUMENT;
+        }
+        try {
+            ArrayList<K> keyList = new ArrayList<K>(keys);
+            String[] newKeys = keyList.stream().map((k) -> buildStringKey(k))
+                    .filter(k -> (k != null))
+                    .toArray(String[]::new);
+            if (newKeys.length == 0) {
+                return CacheResult.FAIL_ILLEGAL_ARGUMENT;
+            }
+            final RKeys rKeys = redissonClient.getKeys();
+            final RFuture<Long> future = rKeys.deleteAsync(newKeys);
+
+            CacheResult result = new CacheResult(future.handle((size, ex) -> {
+                if (ex != null) {
+                    LemonCacheExecutor.defaultExecutor().execute(() -> logError("REMOVE_ALL", "keys(" + keys.size() + ")", ex));
+                    return new ResultData(ex);
+                } else {
+                    CacheResultCode resultCode = (size == newKeys.length) ? CacheResultCode.SUCCESS : CacheResultCode.PART_SUCCESS;
+                    return new ResultData(resultCode, null, null);
+                }
+            }));
+            setTimeout(result);
+            return result;
+        } catch (Exception ex) {
+            logError("REMOVE_ALL", "keys(" + keys.size() + ")", ex);
+            return new CacheResult(ex);
+        }
     }
 
     @Override
     protected CacheResult do_PUT_IF_ABSENT(K key, V value, long expireAfterWrite, TimeUnit timeUnit) {
-        return null;
+        if (key == null) {
+            return CacheResult.FAIL_ILLEGAL_ARGUMENT;
+        }
+        try {
+            byte[] newKey = buildKey(key);
+            String newStringKey = new String(newKey, "UTF-8");
+            RBucket<V> rBucket = redissonClient.getBucket(newStringKey);
+            final RFuture<Boolean> future = rBucket.trySetAsync(value, expireAfterWrite, timeUnit);
+            CacheResult result = new CacheResult(future.handle((success, ex) -> {
+                if (ex != null) {
+                    LemonCacheExecutor.defaultExecutor().execute(() -> logError("PUT_IF_ABSENT", key, ex));
+                    return new ResultData(ex);
+                } else {
+                    CacheResultCode resultCode = (success.booleanValue()) ? CacheResultCode.SUCCESS : CacheResultCode.EXISTS;
+                    return new ResultData(resultCode, null, null);
+                }
+            }));
+            setTimeout(result);
+            return result;
+        } catch (Exception ex) {
+            logError("PUT_IF_ABSENT", key, ex);
+            return new CacheResult(ex);
+        }
     }
 
     @Override

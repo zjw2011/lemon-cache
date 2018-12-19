@@ -8,7 +8,7 @@ lemon:
         keyConvertor: fastjson
     remote:
       default:
-        type: redis.lettuce
+        type: redisson
         keyConvertor: fastjson
         valueEncoder: java
         valueDecoder: java

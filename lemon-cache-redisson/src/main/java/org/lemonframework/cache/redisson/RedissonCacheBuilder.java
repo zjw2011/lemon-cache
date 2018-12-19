@@ -33,4 +33,17 @@ public class RedissonCacheBuilder<T extends ExternalCacheBuilder<T>> extends Ext
         getConfig().setRedissonClient(redissonClient);
         return self();
     }
+
+    public void setRedisClient(RedissonClient redisClient) {
+        getConfig().setRedissonClient(redisClient);
+    }
+
+    public T asyncResultTimeoutInMillis(long asyncResultTimeoutInMillis) {
+        getConfig().setAsyncResultTimeoutInMillis(asyncResultTimeoutInMillis);
+        return self();
+    }
+
+    public void setAsyncResultTimeoutInMillis(long asyncResultTimeoutInMillis) {
+        getConfig().setAsyncResultTimeoutInMillis(asyncResultTimeoutInMillis);
+    }
 }

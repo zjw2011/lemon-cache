@@ -1,5 +1,11 @@
 package org.lemonframework.cache.sample;
 
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,6 +34,12 @@ public class LemonCacheSampleApplication {
     @CreateCache(expire = 100, cacheType = CacheType.LOCAL)
     private Cache<Long, String> userCache;
 
+    @CreateCache(expire = 100, cacheType = CacheType.REMOTE)
+    private Cache<String, User> userCaches;
+
+    @CreateCache(expire = 100, cacheType = CacheType.REMOTE)
+    private Cache<String, User> personCache;
+
     @Autowired
     private UserService userService;
 
@@ -53,6 +65,25 @@ public class LemonCacheSampleApplication {
     @GetMapping("/user")
     public User getUser() {
 	    return userService.getUserById(1);
+    }
+
+    @GetMapping("/person")
+    public List<User> getPerson() {
+
+        personCache.put("3", new User(3, "jojo"));
+
+	    Map<String, User> users = new HashMap<>();
+        users.put("1", new User(1, "zhangsan"));
+        users.put("2", new User(2, "wangwu"));
+
+        userCaches.putAll(users);
+
+        Set<String> keys = new LinkedHashSet<>();
+        keys.add("1");
+        keys.add("2");
+        userCaches.getAll(keys);
+
+        return null;
     }
 
 }

@@ -44,7 +44,7 @@
 
         <dependency>
             <groupId>org.lemonframework.cache</groupId>
-            <artifactId>lemon-cache-redis-lettuce</artifactId>
+            <artifactId>lemon-cache-redisson</artifactId>
         </dependency>
 
         <dependency>

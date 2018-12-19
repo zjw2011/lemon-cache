@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 import org.lemonframework.cache.CacheBuilder;
+import org.lemonframework.cache.anno.CacheConsts;
 import org.lemonframework.cache.external.ExternalCacheBuilder;
 import org.lemonframework.cache.redisson.RedissonCacheBuilder;
 import org.redisson.Redisson;
@@ -58,12 +59,16 @@ public class RedissonAutoConfiguration {
         @Override
         protected CacheBuilder initCache(ConfigTree ct, String cacheAreaWithPrefix) {
 
+            long asyncResultTimeoutInMillis = Long.parseLong(
+                    ct.getProperty("asyncResultTimeoutInMillis", Long.toString(CacheConsts.ASYNC_RESULT_TIMEOUT.toMillis())));
+
             ExternalCacheBuilder externalCacheBuilder = RedissonCacheBuilder.createRedisCacheBuilder()
-                    .redisClient(redissonClient);
+                    .redisClient(this.redissonClient)
+                    .asyncResultTimeoutInMillis(asyncResultTimeoutInMillis);
             parseGeneralConfig(externalCacheBuilder, ct);
 
-            // eg: "redisson.remote.default"
-            autoConfigureBeans.getCustomContainer().put("ressionClient." + cacheAreaWithPrefix, redissonClient);
+            // eg: "remote.default.client"
+            autoConfigureBeans.getCustomContainer().put(cacheAreaWithPrefix + ".client", this.redissonClient);
 
             return externalCacheBuilder;
         }
