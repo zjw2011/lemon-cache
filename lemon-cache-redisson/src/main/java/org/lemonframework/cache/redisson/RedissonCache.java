@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -274,7 +275,8 @@ public class RedissonCache<K, V> extends AbstractExternalCache<K, V> {
 
     @Override
     public <T> T unwrap(Class<T> clazz) {
-        if (clazz.equals(RedissonClient.class)) {
+        Objects.requireNonNull(clazz);
+        if (RedissonClient.class.isAssignableFrom(clazz)) {
             return (T) redissonClient;
         }
         throw new IllegalArgumentException(clazz.getName());
