@@ -180,7 +180,10 @@ public class RedissonCache<K, V> extends AbstractExternalCache<K, V> {
             return CacheResult.FAIL_ILLEGAL_ARGUMENT;
         }
         try {
-            RBatch batch = redissonClient.createBatch(BatchOptions.defaults());
+            BatchOptions batchOptions = BatchOptions.defaults()
+                    .executionMode(BatchOptions.ExecutionMode.IN_MEMORY);
+
+            RBatch batch = redissonClient.createBatch(batchOptions);
             for (Map.Entry<? extends K, ? extends V> en : map.entrySet()) {
                 byte[] newKey = buildKey(en.getKey());
                 String newStringKey = new String(newKey, "UTF-8");
