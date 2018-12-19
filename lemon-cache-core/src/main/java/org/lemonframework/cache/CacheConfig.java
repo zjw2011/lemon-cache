@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import org.lemonframework.cache.anno.CacheConsts;
+
 /**
  * config.
  *
@@ -11,8 +13,7 @@ import java.util.function.Function;
  * @since 0.0.1
  */
 public class CacheConfig<K, V> implements Cloneable {
-    //CacheConsts.DEFAULT_EXPIRE * 1000L;
-    private long expireAfterWriteInMillis = Integer.MAX_VALUE * 1000L;
+    private long expireAfterWriteInMillis = CacheConsts.DEFAULT_EXPIRE * 1000L;
     private long expireAfterAccessInMillis = 0;
     private Function<K, Object> keyConvertor;
 

@@ -7,6 +7,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.lemonframework.cache.anno.CacheConsts;
+
 /**
  * result.
  *
@@ -16,7 +18,7 @@ import java.util.concurrent.TimeoutException;
 public class CacheResult {
     public static final String MSG_ILLEGAL_ARGUMENT = "illegal argument";
 
-    private static Duration DEFAULT_TIMEOUT = Duration.ofMillis(1000);//CacheConsts.ASYNC_RESULT_TIMEOUT;
+    private static Duration DEFAULT_TIMEOUT = CacheConsts.ASYNC_RESULT_TIMEOUT;
 
     public static final CacheResult SUCCESS_WITHOUT_MSG = new CacheResult(CacheResultCode.SUCCESS, null);
     public static final CacheResult PART_SUCCESS_WITHOUT_MSG = new CacheResult(CacheResultCode.PART_SUCCESS, null);
