@@ -81,7 +81,7 @@ public class LemonCacheSampleApplication {
         Set<String> keys = new LinkedHashSet<>();
         keys.add("1");
         keys.add("2");
-        userCaches.getAll(keys);
+        userCaches.GET_ALL(keys);
 
         return null;
     }

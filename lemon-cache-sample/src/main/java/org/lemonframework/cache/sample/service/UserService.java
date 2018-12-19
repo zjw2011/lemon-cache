@@ -3,6 +3,7 @@ package org.lemonframework.cache.sample.service;
 import org.springframework.stereotype.Service;
 
 import org.lemonframework.cache.anno.CacheInvalidate;
+import org.lemonframework.cache.anno.CacheType;
 import org.lemonframework.cache.anno.CacheUpdate;
 import org.lemonframework.cache.anno.Cached;
 import org.lemonframework.cache.sample.model.User;

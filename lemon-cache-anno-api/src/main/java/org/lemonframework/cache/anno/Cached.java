@@ -81,7 +81,7 @@ public @interface Cached {
 
     /**
      * Specify the serialization policy of remote cache when cacheType is CacheType.REMOTE or CacheType.BOTH.
-     * The JetCache build-in serialPolicy are SerialPolicy.JAVA or SerialPolicy.KRYO.
+     * The LemonCache build-in serialPolicy are SerialPolicy.JAVA or SerialPolicy.KRYO.
      * Use global config if the attribute value is absent, and if the global config is not defined either,
      * use SerialPolicy.JAVA instead.
      * @return the serialization policy name of cache value
@@ -90,7 +90,7 @@ public @interface Cached {
 
     /**
      * Specify the key convertor. Used to convert the complex key object.
-     * The JetCache build-in keyConvertor are KeyConvertor.FASTJSON or KeyConvertor.NONE.
+     * The LemonCache build-in keyConvertor are KeyConvertor.FASTJSON or KeyConvertor.NONE.
      * NONE indicate do not convert, FASTJSON will use fastjson to convert key object to a string.
      * Use global config if the attribute value is absent.
      * @return convertor name of cache key
