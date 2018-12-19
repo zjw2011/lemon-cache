@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
 import org.lemonframework.cache.CacheConfig;
@@ -20,7 +18,11 @@ import org.lemonframework.cache.MultiGetResult;
 import org.lemonframework.cache.ResultData;
 import org.lemonframework.cache.external.AbstractExternalCache;
 import org.lemonframework.cache.support.LemonCacheExecutor;
+import org.redisson.api.BatchOptions;
+import org.redisson.api.BatchResult;
+import org.redisson.api.RBatch;
 import org.redisson.api.RBucket;
+import org.redisson.api.RBucketAsync;
 import org.redisson.api.RBuckets;
 import org.redisson.api.RFuture;
 import org.redisson.api.RKeys;
@@ -178,16 +180,15 @@ public class RedissonCache<K, V> extends AbstractExternalCache<K, V> {
             return CacheResult.FAIL_ILLEGAL_ARGUMENT;
         }
         try {
-            CompletionStage<Integer> future = CompletableFuture.completedFuture(0);
+            RBatch batch = redissonClient.createBatch(BatchOptions.defaults());
             for (Map.Entry<? extends K, ? extends V> en : map.entrySet()) {
                 byte[] newKey = buildKey(en.getKey());
                 String newStringKey = new String(newKey, "UTF-8");
-                RBucket<V> rBucket = redissonClient.getBucket(newStringKey);
-                final RFuture<Void> rFuture = rBucket.setAsync(en.getValue(), expireAfterWrite, timeUnit);
-                future = future.thenCombine(rFuture, (failCount, respStr) -> respStr == null ? failCount : failCount + 1);
+                final RBucketAsync<V> bucket = batch.getBucket(newStringKey);
+                bucket.setAsync(en.getValue(), expireAfterWrite, timeUnit);
             }
-
-            CacheResult result = new CacheResult(future.handle((failCount, ex) -> {
+            final RFuture<BatchResult<?>> batchResultRFuture = batch.executeAsync();
+            CacheResult result = new CacheResult(batchResultRFuture.handle((batchResult, ex) -> {
                 if (ex != null) {
                     LemonCacheExecutor.defaultExecutor().execute(() -> logError("PUT_ALL", "map(" + map.size() + ")", ex));
                     return new ResultData(ex);
