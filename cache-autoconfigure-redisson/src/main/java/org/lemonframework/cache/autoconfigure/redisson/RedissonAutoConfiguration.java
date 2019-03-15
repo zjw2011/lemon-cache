@@ -1,7 +1,6 @@
 package org.lemonframework.cache.autoconfigure.redisson;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +12,6 @@ import com.alicp.jetcache.anno.CacheConsts;
 import com.alicp.jetcache.autoconfigure.AutoConfigureBeans;
 import com.alicp.jetcache.autoconfigure.ConfigTree;
 import com.alicp.jetcache.autoconfigure.ExternalCacheAutoInit;
-import com.alicp.jetcache.autoconfigure.JetCacheAutoConfiguration;
 import com.alicp.jetcache.autoconfigure.JetCacheCondition;
 import com.alicp.jetcache.external.ExternalCacheBuilder;
 import org.lemonframework.cache.redisson.RedissonCacheBuilder;
@@ -28,7 +26,6 @@ import org.redisson.api.RedissonClient;
  */
 @Configuration
 @Conditional(RedissonAutoConfiguration.RedissonCondition.class)
-@AutoConfigureAfter(JetCacheAutoConfiguration.class)
 public class RedissonAutoConfiguration {
 
     public static final String AUTO_INIT_BEAN_NAME = "redissonAutoInit";
