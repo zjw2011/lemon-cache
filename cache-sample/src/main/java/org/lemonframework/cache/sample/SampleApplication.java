@@ -64,8 +64,12 @@ public class SampleApplication {
     }
 
     @GetMapping("/user")
-    public User getUser() {
-	    return userService.getUserById(1);
+    public User getUser() throws InterruptedException {
+        final boolean world = personCache.tryLockAndRun("12345", 60, TimeUnit.SECONDS, () -> {
+            System.out.println("world");
+        });
+        TimeUnit.SECONDS.sleep(15);
+        return userService.getUserById(1);
     }
 
     @GetMapping("/person")
@@ -74,7 +78,7 @@ public class SampleApplication {
 	    personCache.tryLockAndRun("12345", 60, TimeUnit.SECONDS, () -> {
             System.out.println("hello");
             try {
-                TimeUnit.SECONDS.sleep(10);
+                TimeUnit.SECONDS.sleep(59);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
