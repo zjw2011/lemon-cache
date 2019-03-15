@@ -71,8 +71,13 @@ public class SampleApplication {
     @GetMapping("/person")
     public List<User> getPerson() {
 
-	    personCache.tryLockAndRun("key", 60, TimeUnit.SECONDS, () -> {
+	    personCache.tryLockAndRun("12345", 60, TimeUnit.SECONDS, () -> {
             System.out.println("hello");
+            try {
+                TimeUnit.SECONDS.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         });
 
         personCache.put("3", new User(3, "jojo"));

@@ -24,13 +24,9 @@
             <artifactId>jetcache-anno</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.lemonframework</groupId>
-            <artifactId>lemon-cache</artifactId>
+            <groupId>org.lemonframework.cache</groupId>
+            <artifactId>cache-autoconfigure-redisson</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>io.lettuce</groupId>
-            <artifactId>lettuce-core</artifactId>
         </dependency>
     </dependencies>
 

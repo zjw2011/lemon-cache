@@ -32,6 +32,10 @@
             <artifactId>cache-starter-redisson</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.alicp.jetcache</groupId>-->
+            <!--<artifactId>jetcache-starter-redis</artifactId>-->
+        <!--</dependency>-->
     </dependencies>
     
 </project>

@@ -12,6 +12,7 @@
         <module>cache-redisson</module>
         <module>cache-starter-redisson</module>
         <module>cache-sample</module>
+        <module>cache-autoconfigure-redisson</module>
     </modules>
 
 
